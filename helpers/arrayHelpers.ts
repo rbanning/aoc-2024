@@ -3,6 +3,18 @@ import { Nullable } from "./nullable.type.ts";
 export type NamedArrayBound = 'first' | 'last';
 export type ArrayBound = number | NamedArrayBound;
 
+export const arrayHelpers = {
+  parseIndex,
+  first,
+  last,
+  lastIndex,
+  inBounds,
+  getValue,
+  intersection,
+  intersect,
+  create,
+  count,
+} as const;
 
 function parseNamedIndex(index: NamedArrayBound, arr: unknown[]): number {
   return index === 'first' ? 0 : lastIndex(arr);
@@ -71,15 +83,11 @@ function intersect(a: unknown[], b: unknown[], equalFn?: (a: unknown, b: unknown
   });
 }
 
-
-export const arrayHelpers = {
-  parseIndex,
-  first,
-  last,
-  lastIndex,
-  inBounds,
-  getValue,
-  intersection,
-  intersect,
-  create,
+function count<T>(array: T[], predicate: (current: T) => boolean): number {
+  return array.reduce((sum, curr: T) => {
+    if (predicate(curr)) { sum += 1; }
+    return sum;
+  }, 0);
 }
+
+

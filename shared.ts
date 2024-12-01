@@ -1,6 +1,10 @@
 import chalk from 'chalk';
 import { readFile } from 'fs/promises';
 
+export function buildDataPath(path?: string) {
+  return path || process.argv[2];
+}
+
 export async function readData(path?: string) {
   const fileName = path || process.argv[2];
   const data = (await readFile(fileName)).toString()
