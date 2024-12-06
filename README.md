@@ -8,6 +8,11 @@ puzzles that are revealed each day in December through the 25th.
 
 [Learn More about Advent of Code](https://adventofcode.com/2024)
 
+
+---
+run solution: `nx day-[x]-[a|b]` 
+run solution w/ sample data: `nx day-[x]-[a|b] --data=sample` 
+
 ---
 ### Hallpass and Friends
 Played by `rbanning` using TypeScript

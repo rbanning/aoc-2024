@@ -8,6 +8,8 @@ export type Strictness = 'low' | 'high';
 export const parsers = {
   toInt,
   toIntAssert,
+  toIntArray,
+  toIntArrayAssert
 } as const;
 
 
@@ -26,4 +28,17 @@ function toIntAssert(val: unknown, strictness: Strictness = 'high'): number {
   var ret = toInt(val, strictness);
   assert(isNotNullable(val) && typeof ret === 'number', `Could not parse value as an integer: ${val}`);
   return ret;
+}
+
+function toIntArray(line: string, strictness: Strictness = 'high'): Nullable<number>[] {
+  return line.split(' ')
+    .map(m => m.trim())
+    .filter(Boolean)
+    .map(m => toInt(m, strictness));
+}
+function toIntArrayAssert(line: string, strictness: Strictness = 'high'): Nullable<number>[] {
+  return line.split(' ')
+    .map(m => m.trim())
+    .filter(Boolean)
+    .map(m => toIntAssert(m, strictness));
 }
