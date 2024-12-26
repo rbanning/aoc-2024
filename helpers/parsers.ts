@@ -31,14 +31,14 @@ function toIntAssert(val: unknown, strictness: Strictness = 'high'): number {
   return ret;
 }
 
-function toIntArray(line: string, strictness: Strictness = 'high'): Nullable<number>[] {
-  return line.split(' ')
+function toIntArray(line: string, delim: string = ' ', strictness: Strictness = 'high'): Nullable<number>[] {
+  return line.split(delim)
     .map(m => m.trim())
     .filter(Boolean)
     .map(m => toInt(m, strictness));
 }
-function toIntArrayAssert(line: string, strictness: Strictness = 'high'): Nullable<number>[] {
-  return line.split(' ')
+function toIntArrayAssert(line: string, delim: string = ' ', strictness: Strictness = 'high'): Nullable<number>[] {
+  return line.split(delim)
     .map(m => m.trim())
     .filter(Boolean)
     .map(m => toIntAssert(m, strictness));
