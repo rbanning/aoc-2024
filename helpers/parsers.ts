@@ -9,7 +9,8 @@ export const parsers = {
   toInt,
   toIntAssert,
   toIntArray,
-  toIntArrayAssert
+  toIntArrayAssert,
+  toStringUnion,
 } as const;
 
 
@@ -41,4 +42,13 @@ function toIntArrayAssert(line: string, strictness: Strictness = 'high'): Nullab
     .map(m => m.trim())
     .filter(Boolean)
     .map(m => toIntAssert(m, strictness));
+}
+
+
+function toStringUnion<T extends string>(value: unknown, possible: Readonly<T[]>) : Nullable<T> {
+  if (strHelpers.isStringUnionType(value, possible)) {
+    return value;
+  }
+  //else
+  return null;
 }
