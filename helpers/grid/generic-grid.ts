@@ -1,5 +1,6 @@
-import { primeFactors } from "../mathHelpers.ts";
+import { Logger } from "../logger/logger.ts";
 import { Nullable } from "../nullable.type.ts";
+import { Predicate } from "../predicate.type.ts";
 import { primitive } from "../primitive.ts";
 import { addCoords, Coord, CoordTuple, toCoord } from "./coord.type.ts";
 import { directionDelta, directions } from "./direction.type.ts";
@@ -44,6 +45,8 @@ export class GenericGrid<T> {
   exists(coord: CoordTuple): boolean;
   exists(x: number, y: number): boolean;
   exists(arg1: Coord | CoordTuple | number, arg2?: number): boolean {
+    if (primitive.isNullish(arg1)) { return false; }
+    
     const { x, y } = this._toCoord(arg1, arg2);
     return y >=0 && y < this.#grid.length
       && x >= 0 && x < this.#grid[y].length;
@@ -58,6 +61,30 @@ export class GenericGrid<T> {
     }
     //else
     return null;
+  }
+
+  set(coord: Coord, value: T): boolean;
+  set(x: number, y: number, value: T): boolean;
+  set(arg1: Coord | number, arg2?: number | T, arg3?: T): boolean {
+    const value = primitive.isNumber(arg2) ? arg3 : arg2;
+    const { x, y } = this._toCoord(arg1, primitive.isNumber(arg2) ? arg2 : undefined);
+    if (this.exists(x,y)) {
+      this.#grid[y][x] = value;
+      return true;
+    }
+    //else
+    return false;
+  }
+
+
+
+  find(predicate: Predicate<T>): Nullable<Coord> {
+    const all = this.coordinates();
+    return all.find(coord => {
+      const v = this.get(coord);
+      return primitive.isNotNullish(v)
+        && predicate(v);
+    })
   }
 
   coordinates(): Coord[];
@@ -96,6 +123,18 @@ export class GenericGrid<T> {
     this.#grid = [];
   }
 
+  display() {
+    const logger = new Logger();
+
+    const {rows, cols} = this.size;
+    for (let y = 0; y < rows; y++) {
+      for (let x = 0; x < cols; x++) {
+        const v = this.get({x,y});
+        logger.write(`${v}`);
+      }  
+      logger.writeLine();
+    }
+  }
 
   protected _toCoord(arg1: number | Coord | CoordTuple, arg2?: number): Coord {
     return primitive.isNumber(arg1) && primitive.isNumber(arg2)

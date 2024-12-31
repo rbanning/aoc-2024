@@ -1,6 +1,8 @@
 import chalk from 'chalk';
 import { readFile } from 'fs/promises';
 
+export type Test = 'a' | 'b' | 'x';
+
 export function buildDataPath(path?: string) {
   return path || process.argv[2];
 }
@@ -14,8 +16,7 @@ export async function readData(path?: string) {
 }
 
 
-
-export function outputHeading(day: number, test: 'a' | 'b' | 'x') {
+export function outputHeading(day: number, test: Test) {
 
   const text = ` 🎄    AOB #${day}-${test}    🎄 `;
   console.log(chalk.red(Array(text.length).fill('-').join('')));
@@ -23,8 +24,12 @@ export function outputHeading(day: number, test: 'a' | 'b' | 'x') {
   console.log(chalk.red(Array(text.length).fill('-').join('')));
 }
 
-export function outputAnswer(answer: unknown) {
-  console.log(chalk.white.bgGreen('Your Answer:'), chalk.green(answer));
+export function outputAnswer(answer: unknown, totalTime?: string) {
+  console.log(chalk.gray("~.~.~.~.~.~.~.~.~.~.~.~.~.~"));
+  console.log(chalk.gray.italic('Total time...', totalTime));
+  console.log(chalk.whiteBright.bgGreen(' Your Answer: '), chalk.green.bold(answer), chalk.reset());
+  if (totalTime) {
+  }
 }
 
 
