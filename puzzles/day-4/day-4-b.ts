@@ -1,9 +1,13 @@
 import { CharGrid } from '../../helpers/grid/char-grid.ts';
 import { addCoords, Coord } from '../../helpers/grid/coord.type.ts';
 import { directionDelta } from '../../helpers/grid/direction.type.ts';
-import { readData, outputHeading, outputAnswer, Verbose } from '../../shared.ts';
+import { appRunner } from '../../app-runner.ts';
+import { readData, Verbose } from '../../shared.ts';
 Verbose.setActive(false);
 const verbose = new Verbose();
+
+await appRunner(4, 'b', day4b);
+
 
 export async function day4b(dataPath?: string) {
   const data = (await readData(dataPath)).filter(Boolean);
@@ -39,8 +43,3 @@ function checkDiagonal(grid: CharGrid, tuple: Coord[]) {
   return (letters[0] === 'M' && letters[1] === 'S')
       || (letters[0] === 'S' && letters[1] === 'M');
 }   
-
-
-const answer = await day4b();
-outputHeading(4, 'b');
-outputAnswer(answer);

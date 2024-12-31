@@ -1,7 +1,23 @@
 import assert from 'assert';
 import { parsers } from '../../helpers/parsers.ts';
-import { readData, outputHeading, outputAnswer, Verbose } from '../../shared.ts';
 import { arrayHelpers } from '../../helpers/arrayHelpers.ts';
+import { appRunner } from '../../app-runner.ts';
+import { readData, Verbose } from '../../shared.ts';
+Verbose.setActive(false);
+const verbose = new Verbose();
+
+await appRunner(1, 'b', day1b);
+
+
+export async function day1b(dataPath?: string) {
+  const data = (await readData(dataPath)).filter(Boolean);  //remove any empty lines
+  
+  const [listA, listB] = parseData(data);
+  assert(listA.length === listB.length, `Unequal number of elements: a) ${listA.length} and b) ${listB.length}`);
+
+  return listA.reduce((sum, curr, index) => sum + (curr * arrayHelpers.count(listB, (b) => b === curr)), 0);  
+}
+
 
 // two integers are on each line
 // the left integers represent one list of numbers
@@ -22,19 +38,4 @@ function parseData(data: string[]): [number[], number[]] {
   result[1].sort();
   return result;
 }
-
-export async function day1b(dataPath?: string) {
-  const data = (await readData(dataPath)).filter(Boolean);  //remove any empty lines
-  
-  const [listA, listB] = parseData(data);
-  assert(listA.length === listB.length, `Unequal number of elements: a) ${listA.length} and b) ${listB.length}`);
-
-  return listA.reduce((sum, curr, index) => sum + (curr * arrayHelpers.count(listB, (b) => b === curr)), 0);  
-}
-
-Verbose.setActive(false);
-const answer = await day1b();
-outputHeading(1, 'b');
-outputAnswer(answer);
-
 

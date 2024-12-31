@@ -1,7 +1,10 @@
-import { readData, outputHeading, outputAnswer, Verbose } from '../../shared.ts';
-
+import { appRunner } from '../../app-runner.ts';
+import { readData, Verbose } from '../../shared.ts';
 Verbose.setActive(false);
 const verbose = new Verbose();
+
+await appRunner(15, 'b', day15b);
+
 
 
 export async function day15b(dataPath?: string) {
@@ -10,6 +13,3 @@ export async function day15b(dataPath?: string) {
 
 }
 
-const answer = await day15b();
-outputHeading(15, 'b');
-outputAnswer(answer);

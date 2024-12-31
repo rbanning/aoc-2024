@@ -1,8 +1,12 @@
 import { parsers } from '../../helpers/parsers.ts';
-import { readData, outputHeading, outputAnswer, Verbose } from '../../shared.ts';
 import { OrderingList } from './ordering-list.model.ts';
-Verbose.setActive(true);
+import { appRunner } from '../../app-runner.ts';
+import { readData, Verbose } from '../../shared.ts';
+Verbose.setActive(false);
 const verbose = new Verbose();
+
+await appRunner(5, 'b', day5b);
+
 
 export async function day5b(dataPath?: string) {
   const data = (await readData(dataPath)).filter(Boolean);
@@ -28,6 +32,3 @@ export async function day5b(dataPath?: string) {
 
 }
 
-const answer = await day5b();
-outputHeading(5, 'b');
-outputAnswer(answer);

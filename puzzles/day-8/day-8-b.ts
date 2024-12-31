@@ -1,7 +1,9 @@
-import { greatestCommonFactor, leastCommonMultiple, primeFactors } from '../../helpers/mathHelpers.ts';
-import { readData, outputHeading, outputAnswer, Verbose } from '../../shared.ts';
-Verbose.setActive(true);
+import { appRunner } from '../../app-runner.ts';
+import { readData, Verbose } from '../../shared.ts';
+Verbose.setActive(false);
 const verbose = new Verbose();
+
+await appRunner(8, 'b', day8b);
 
 
 export async function day8b(dataPath?: string) {
@@ -9,7 +11,3 @@ export async function day8b(dataPath?: string) {
   return data.reduce((sum, curr) => sum + 1, 0);  
 
 }
-
-const answer = await day8b();
-outputHeading(8, 'b');
-outputAnswer(answer);

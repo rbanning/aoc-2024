@@ -1,6 +1,21 @@
 import assert from 'assert';
 import { parsers } from '../../helpers/parsers.ts';
-import { readData, outputHeading, outputAnswer } from '../../shared.ts';
+import { appRunner } from '../../app-runner.ts';
+import { readData, Verbose } from '../../shared.ts';
+Verbose.setActive(false);
+const verbose = new Verbose();
+
+await appRunner(1, 'a', day1a);
+
+export async function day1a(dataPath?: string) {
+  const data = (await readData(dataPath)).filter(Boolean);  //remove any empty lines
+  
+  const [listA, listB] = parseData(data);
+  assert(listA.length === listB.length, `Unequal number of elements: a) ${listA.length} and b) ${listB.length}`);
+
+  return listA.reduce((sum, curr, index) => sum + Math.abs(curr - listB[index]), 0);  
+}
+
 
 // two integers are on each line
 // the left integers represent one list of numbers
@@ -22,16 +37,4 @@ function parseData(data: string[]): [number[], number[]] {
   return result;
 }
 
-export async function day1a(dataPath?: string) {
-  const data = (await readData(dataPath)).filter(Boolean);  //remove any empty lines
-  
-  const [listA, listB] = parseData(data);
-  assert(listA.length === listB.length, `Unequal number of elements: a) ${listA.length} and b) ${listB.length}`);
-
-  return listA.reduce((sum, curr, index) => sum + Math.abs(curr - listB[index]), 0);  
-}
-
-const answer = await day1a();
-outputHeading(1, 'a');
-outputAnswer(answer);
 

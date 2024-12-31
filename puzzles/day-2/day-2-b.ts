@@ -1,13 +1,26 @@
-import { readData, outputHeading, outputAnswer, Verbose } from '../../shared.ts';
 import { isNullable, Nullable } from '../../helpers/nullable.type.ts';
 import { parsers } from '../../helpers/parsers.ts';
-
+import { appRunner } from '../../app-runner.ts';
+import { readData, Verbose } from '../../shared.ts';
+Verbose.setActive(false);
 const verbose = new Verbose();
+
+await appRunner(2, 'b', day2b);
 
 
 type Level = number;  
 type Report = Level[];
 type ReportMode = 'increasing' | 'decreasing';
+
+
+export async function day2b(dataPath?: string) {
+  const data = (await readData(dataPath)).filter(Boolean);
+  const reports = data.map(m => parseToReport(m));
+  return reports.filter(m => isSafeWithProblemDampener(m)).length;
+}
+
+
+
 function parseToReport(line: string): Level[] {
   return parsers.toIntArrayAssert(line);
 }
@@ -44,15 +57,4 @@ function isSafeWithProblemDampener(report: Report, maxDelta: number = 3) {
   }
   return result;
 }
-
-export async function day2b(dataPath?: string) {
-  const data = (await readData(dataPath)).filter(Boolean);
-  const reports = data.map(m => parseToReport(m));
-  return reports.filter(m => isSafeWithProblemDampener(m)).length;
-}
-
-Verbose.setActive(false);
-const answer = await day2b();
-outputHeading(2, 'b');
-outputAnswer(answer);
 

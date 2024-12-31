@@ -1,11 +1,16 @@
 import { CharGrid } from '../../helpers/grid/char-grid.ts';
 import { addCoords, Coord, equalCoords, multiplyCoord } from '../../helpers/grid/coord.type.ts';
 import { allDirectionDeltas } from '../../helpers/grid/direction.type.ts';
-import { readData, outputHeading, outputAnswer, Verbose } from '../../shared.ts';
+import { appRunner } from '../../app-runner.ts';
+import { readData, Verbose } from '../../shared.ts';
 Verbose.setActive(false);
 const verbose = new Verbose();
 
 const cache = [];
+
+await appRunner(4, 'a', day4a);
+
+
 
 export async function day4a(dataPath?: string) {
   const data = (await readData(dataPath)).filter(Boolean);
@@ -22,11 +27,6 @@ export async function day4a(dataPath?: string) {
   return ret;  
 
 }
-
-const answer = await day4a();
-outputHeading(4, 'a');
-outputAnswer(answer);
-
 
 function traverse(grid: CharGrid, start: Coord, target: string[]): number {  
   const options = allDirectionDeltas();  

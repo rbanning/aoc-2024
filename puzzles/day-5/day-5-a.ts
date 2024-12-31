@@ -1,8 +1,13 @@
 import { parsers } from '../../helpers/parsers.ts';
-import { readData, outputHeading, outputAnswer, Verbose } from '../../shared.ts';
 import { OrderingList } from './ordering-list.model.ts';
-Verbose.setActive(true);
+import { appRunner } from '../../app-runner.ts';
+import { readData, Verbose } from '../../shared.ts';
+Verbose.setActive(false);
 const verbose = new Verbose();
+
+await appRunner(5, 'a', day5a);
+
+
 
 export async function day5a(dataPath?: string) {
   const data = (await readData(dataPath)).filter(Boolean);
@@ -29,8 +34,4 @@ export async function day5a(dataPath?: string) {
   return middles.reduce((sum, curr) => sum + curr, 0);  
 }
 
-
-const answer = await day5a();
-outputHeading(5, 'a');
-outputAnswer(answer);
 

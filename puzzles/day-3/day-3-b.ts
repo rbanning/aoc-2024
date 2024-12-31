@@ -1,7 +1,26 @@
 import { parsers } from '../../helpers/parsers.ts';
-import { readData, outputHeading, outputAnswer, Verbose } from '../../shared.ts';
-
+import { appRunner } from '../../app-runner.ts';
+import { readData, Verbose } from '../../shared.ts';
+Verbose.setActive(false);
 const verbose = new Verbose();
+
+await appRunner(3, 'b', day3b);
+
+
+export async function day3b(dataPath?: string) {
+  const data = (await readData(dataPath)).filter(Boolean);
+
+    //combine into one line of text and strip out doNots
+    const cleanData = stripDonts(data.join(''));
+    const commands = parseValidCommands(cleanData);
+
+    //console.log("Commands: ", commands);
+
+    return commands.reduce((sum, cmd) => sum + execCommand(cmd), 0);
+
+    //10345261
+  
+}
 
 
 function stripDonts(input: string) {
@@ -31,23 +50,3 @@ function execCommand(command: string): number {
 }
 
 
-
-export async function day3b(dataPath?: string) {
-  const data = (await readData(dataPath)).filter(Boolean);
-
-    //combine into one line of text and strip out doNots
-    const cleanData = stripDonts(data.join(''));
-    const commands = parseValidCommands(cleanData);
-
-    //console.log("Commands: ", commands);
-
-    return commands.reduce((sum, cmd) => sum + execCommand(cmd), 0);
-
-    //10345261
-  
-}
-
-Verbose.setActive(false);
-const answer = await day3b();
-outputHeading(3, 'b');
-outputAnswer(answer);
