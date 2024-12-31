@@ -3,7 +3,7 @@ import { CharGrid } from '../../helpers/grid/char-grid.ts';
 import { Coord, equalCoords, addCoords } from '../../helpers/grid/coord.type.ts';
 import { BaseDirection, _baseDirectionDelta, baseDirections } from '../../helpers/grid/direction.type.ts';
 import { Logger } from '../../helpers/logger/logger.ts';
-import { readData, outputHeading, outputAnswer, Verbose } from '../../shared.ts';
+import { readData, Verbose } from '../../shared.ts';
 import { GenericSet } from '../../helpers/generic-set.model.ts';
 import { appRunner } from '../../app-runner.ts';
 
@@ -16,8 +16,6 @@ type Visited = [Coord, BaseDirection, boolean];
 const BLOCK = '#';
 const START = '^';
 const PATH = '.';
-
-const TARGET_ANS = 1670
 
 await appRunner(6, 'b', day6b);
 
@@ -114,7 +112,8 @@ function detectedTheLoops(visited: Visited[], grid: CharGrid) {
         const next = addCoords(current, _baseDirectionDelta(dir));
         if (grid.get(next) === BLOCK) {
           dir = turnRight(dir);
-          current = addCoords(current, _baseDirectionDelta(dir));
+          // correction ... do not advance to the next cell, just rotate
+          // current = addCoords(current, _baseDirectionDelta(dir));
         } 
         else {
           current = next;

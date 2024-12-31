@@ -52,8 +52,7 @@ function isObstacle(pos){
 
 
 export function checkLoop() {
-    let visitedSquares = new Map()
-    let visitedSquaresAndRotations = new Map()
+    let visited = new Map()
 
     let guard = findGuard(playingField)
     if(!guard){
@@ -61,7 +60,7 @@ export function checkLoop() {
     }
     guard.rotation = 0;
     while (true) {
-        if (visitedSquaresAndRotations.has(JSON.stringify({
+        if (visited.has(JSON.stringify({
             x: guard.x,
             y: guard.y,
             rotation: guard.rotation
@@ -70,12 +69,7 @@ export function checkLoop() {
             break
         }
 
-        visitedSquares.set(JSON.stringify({
-            x: guard.x,
-            y: guard.y
-        }), true)
-
-        visitedSquaresAndRotations.set(JSON.stringify({
+        visited.set(JSON.stringify({
             x: guard.x,
             y: guard.y,
             rotation: guard.rotation
