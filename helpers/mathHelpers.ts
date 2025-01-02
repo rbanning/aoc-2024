@@ -1,4 +1,29 @@
-export function primeFactors(n: number) {
+export const mathHelpers = {
+
+  digits,
+  
+  primeFactors,
+  greatestCommonFactor,
+  leastCommonMultiple,
+
+} as const;
+
+//return number of digits in an integer
+// fails for a float
+function digits(int: number) {
+  if (isNaN(int)) { return 0; }
+  else if (int < 0) {
+    return digits(Math.abs(int));
+  }
+  //else
+  return int.toString().length;
+
+  //alt (maybe faster) 
+  // https://stackoverflow.com/a/14879700
+  // return Math.log(int) * Math.LOG10E + 1 | 0; 
+}
+
+function primeFactors(n: number) {
   //require integer
   if (!Number.isInteger(n)) { throw new Error(`Error calculating prime factors of ${n} - not an integer`); }
   const original = n; //save
@@ -18,7 +43,7 @@ export function primeFactors(n: number) {
   return factors;
 }
 
-export function greatestCommonFactor(...values: number[]): number {
+function greatestCommonFactor(...values: number[]): number {
   if (values.length === 0) { throw new Error(`Unable to calculate the GCF of no numbers}`); }
   if (values.length === 1) { throw new Error(`Unable to calculate the GCF of a single number: ${values[0]}`); }
   else if (values.length === 2) {
@@ -30,7 +55,7 @@ export function greatestCommonFactor(...values: number[]): number {
   return greatestCommonFactor(first, greatestCommonFactor(...values));
 }
 
-export function leastCommonMultiple(...values: number[]): number {
+function leastCommonMultiple(...values: number[]): number {
   if (values.length === 0) { throw new Error(`Unable to calculate the LCM of no numbers}`); }
   if (values.length === 1) { throw new Error(`Shouldn't need to calculate the LCM of a single number: ${values[0]}`); }
   else if (values.length === 2) {
