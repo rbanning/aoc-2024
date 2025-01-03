@@ -2,7 +2,7 @@ import { Logger } from "../logger/logger.ts";
 import { Nullable } from "../nullable.type.ts";
 import { Predicate } from "../predicate.type.ts";
 import { primitive } from "../primitive.ts";
-import { addCoords, Coord, CoordTuple, toCoord } from "./coord.type.ts";
+import { addCoords, Coord, CoordTuple, distanceBetweenCords, toCoord } from "./coord.type.ts";
 import { directionDelta, directions } from "./direction.type.ts";
 
 export type GridParser<T> = (value: string) => T;
@@ -111,6 +111,25 @@ export class GenericGrid<T> {
     console.warn(">>> Grid.adjacentFrom() - Invalid Coordinate", coord, this.exists(coord))
     return [];
   }
+
+  distanceBetween(a: Coord, b: Coord): number;
+  distanceBetween(a: CoordTuple, b: CoordTuple): number;
+  distanceBetween(x1: number, y1: number, x2: number, y2: number): number;
+  distanceBetween(arg1: Coord | CoordTuple | number, arg2: Coord | CoordTuple | number, x2?: number, y2?: number): number {
+    const a = (primitive.isNumber(arg1) && primitive.isNumber(arg2)) 
+      ? this._toCoord(arg1, arg2)
+      : this._toCoord(arg1);
+    const b = (primitive.isNumber(x2) && primitive.isNumber(y2)) 
+      ? this._toCoord(x2, y2)
+      : this._toCoord(arg2);
+
+    if (this.exists(a) && this.exists(b)) {
+      return distanceBetweenCords(a, b);
+    }
+    //else
+    return null;  //fail quietly
+  }
+
 
   load(lines: string[], delim = '') {
     this.reset();

@@ -1,5 +1,5 @@
 import { CharGrid } from '../../helpers/grid/char-grid.ts';
-import { addCoords, Coord, equalCoords, multiplyCoord } from '../../helpers/grid/coord.type.ts';
+import { addCoords, Coord, equalCoords, multiplyCoords } from '../../helpers/grid/coord.type.ts';
 import { allDirectionDeltas } from '../../helpers/grid/direction.type.ts';
 import { appRunner } from '../../app-runner.ts';
 import { readData, Verbose } from '../../shared.ts';
@@ -40,7 +40,7 @@ function traverse(grid: CharGrid, start: Coord, target: string[]): number {
 
 function checkDirection(grid: CharGrid, start: Coord, target: string[], delta: Coord) {
   return target.every((targetLetter, index) => {
-    const coord = addCoords(start, multiplyCoord(delta, index));
+    const coord = addCoords(start, multiplyCoords(delta, index));
     const existingLetter = grid.get(coord);
     return existingLetter === targetLetter;
   })

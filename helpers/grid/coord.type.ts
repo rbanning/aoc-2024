@@ -59,10 +59,25 @@ export function addCoords(a: Coord, b: Coord): Coord {
   };
 }
 
-export function multiplyCoord(a: Coord, scalar: number): Coord {
+export function multiplyCoords(a: Coord, scalar: number): Coord {
   return {
     x: a.x * scalar,
     y: a.y * scalar
   }
 }
 
+export function distanceBetweenCords(a: Coord, b: Coord): number {
+  return Math.sqrt(
+    Math.pow(a.x - b.x, 2)  //square of the diff on x-axis
+    + 
+    Math.pow(a.y - b.y, 2)  //square of the diff on y-axis
+  )
+}
+
+// coord (B) "After" coord (A) when...
+// B.y > A.y
+// or B.y === A.y && B.x > A.x
+export function isCoordAfter(b: Coord, a: Coord) {
+  return b.y > a.y 
+    || (b.y === a.y && b.x > a.x);
+}
